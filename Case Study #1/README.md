@@ -15,20 +15,26 @@ Danny’s Diner is in need of your assistance to help the restaurant stay afloat
 
 ***
 
-**Case Study Questions**
+## Case Study Questions
 Each of the following case study questions can be answered using a single SQL statement:
 
-What is the total amount each customer spent at the restaurant?
-How many days has each customer visited the restaurant?
-What was the first item from the menu purchased by each customer?
-What is the most purchased item on the menu and how many times was it purchased by all customers?
-Which item was the most popular for each customer?
-Which item was purchased first by the customer after they became a member?
-Which item was purchased just before the customer became a member?
-What is the total items and amount spent for each member before they became a member?
-If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
-In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+* What is the total amount each customer spent at the restaurant?
+* How many days has each customer visited the restaurant?
+* What was the first item from the menu purchased by each customer?
+* What is the most purchased item on the menu and how many times was it purchased by all customers?
+* Which item was the most popular for each customer?
+* Which item was purchased first by the customer after they became a member?
+* Which item was purchased just before the customer became a member?
+* What is the total items and amount spent for each member before they became a member?
+* If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+* In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
+### Bonus Questions
+
+* Recreate the following table output using the available data:
+
+![img4](https://github.com/mtahiraslan/8_week_sql_challenge/blob/main/Case%20Study%20%231%20-%20Danny's%20Diner/images/bonus1.JPG?raw=true)
+![img5](https://github.com/mtahiraslan/8_week_sql_challenge/blob/main/Case%20Study%20%231%20-%20Danny's%20Diner/images/bonus2.JPG?raw=true)
 
 
 **1. What is the total amount each customer spent at the restaurant?**
