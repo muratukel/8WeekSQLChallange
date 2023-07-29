@@ -5,7 +5,6 @@
 
 ### 📚 Table of Contents
 
-###Business Task
-###Entity Relationship Diagram
-###Question and Solution
-###Please note that all the information regarding the case study has been sourced from the following link: here.
+- [Business Task](#business-task)
+- [Entity Relationship Diagram](#entity-relationship-diagram)
+- [Question and Solution](#question-and-solution)
