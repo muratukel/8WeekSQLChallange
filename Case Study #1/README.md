@@ -44,7 +44,7 @@ SELECT S.CUSTOMER_ID,
 	SUM(PRICE) AS TOTAL_SPENT
 FROM SALES AS S
 LEFT JOIN MENU AS M ON M.PRODUCT_ID = S.PRODUCT_ID
-GROUP BY 1
+GROUP BY 1;
 ````
 
 **2.How many days has each customer visited the restaurant?**
@@ -53,5 +53,54 @@ GROUP BY 1
 SELECT CUSTOMER_ID,
 	COUNT(DISTINCT ORDER_DATE) AS VISIT_COUNT
 FROM SALES
+GROUP BY 1;
+````
+**3.What was the first item from the menu purchased by each customer?**
+
+````sql
+SELECT DISTINCT S.CUSTOMER_ID,
+	M.PRODUCT_NAME,
+	S.ORDER_DATE
+FROM SALES AS S
+LEFT JOIN MENU AS M ON M.PRODUCT_ID = S.PRODUCT_ID
+WHERE S.ORDER_DATE =
+		(SELECT MIN(ORDER_DATE)
+			FROM SALES)
+ORDER BY S.ORDER_DATE;
+````
+
+**4.What is the most purchased item on the menu and how many times was it purchased by all customers?**
+
+````sql
+  
+SELECT M.PRODUCT_NAME,
+	COUNT(S.*) AS TOTAL_ORDER
+FROM SALES AS S
+LEFT JOIN MENU AS M ON M.PRODUCT_ID = S.PRODUCT_ID
 GROUP BY 1
+ORDER BY TOTAL_ORDER DESC
+LIMIT 1;
+````
+
+**5.Which item was the most popular for each customer?**
+
+````sql
+
+with customer_product_sales as 
+(
+	select 
+		s.customer_id,
+		m.product_name,
+		count(s.product_id) as popular_order,
+			rank() over (partition by s.customer_id order by count(s.product_id) desc ) as rank 
+	from sales as s
+ left join menu as m on m.product_id=s.product_id
+group by 1,2
+)	
+select 
+	customer_id,
+   	product_name,
+		popular_order
+	from customer_product_sales 
+ where rank=1;
 ````
