@@ -46,3 +46,12 @@ FROM SALES AS S
 LEFT JOIN MENU AS M ON M.PRODUCT_ID = S.PRODUCT_ID
 GROUP BY 1
 ````
+
+**2.How many days has each customer visited the restaurant?**
+
+````sql
+SELECT CUSTOMER_ID,
+	COUNT(DISTINCT ORDER_DATE) AS VISIT_COUNT
+FROM SALES
+GROUP BY 1
+````
