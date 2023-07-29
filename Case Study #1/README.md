@@ -46,10 +46,12 @@ FROM SALES AS S
 LEFT JOIN MENU AS M ON M.PRODUCT_ID = S.PRODUCT_ID
 GROUP BY 1;
 ````
+###Output:
 "customer_id"	"total_spent"
 "B"	74
 "C"	36
 "A"	76
+***
 **2.How many days has each customer visited the restaurant?**
 
 ````sql
