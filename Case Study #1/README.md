@@ -104,3 +104,121 @@ select
 	from customer_product_sales 
  where rank=1;
 ````
+
+**6.Which item was purchased first by the customer after they became a member?**
+
+````sql
+
+with table1 as(
+select s.customer_id,
+	   s.order_date,
+	   m.join_date,
+	   menu.product_name,
+	   rank() OVER (PARTITION BY s.customer_id ORDER BY s.order_date) AS rank_
+from sales as s
+left join members as m ON m.customer_id = s.customer_id
+left join menu ON menu.product_id = s.product_id
+where join_date is not null
+and join_date <= order_date
+	)
+select *
+from table1
+where rank_ = 1
+
+````
+**7.Which item was purchased just before the customer became a member?**
+
+````sql
+
+with table1 as (
+select s.customer_id,
+	   s.order_date,
+	   m.join_date,
+	   menu.product_name,
+	   rank() over(partition by s.customer_id order by s.order_date desc) as rank_
+from sales as s
+left join members as m ON m.customer_id = s.customer_id
+left join menu ON menu.product_id = s.product_id
+where join_date is not null 
+and join_date > order_date
+			)
+select * 
+from table1
+where rank_ = 1
+
+````
+
+**8.What is the total items and amount spent for each member before they became a member?**
+
+````sql
+with table1 as (
+select s.customer_id,
+	   s.order_date,
+	   m.join_date,
+	   mm.product_name,
+	   mm.price
+from sales as s
+left join members as m
+ON m.customer_id = s.customer_id
+left join menu as mm 
+ON mm.product_id = s.product_id
+where s.order_date < join_date 
+)
+select customer_id,
+	   sum(price) as total_spend,
+	   count(*) as count_product
+from table1
+group by 1
+
+````
+
+**9.If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
+
+````sql
+with table1 as 
+(
+select s.customer_id,
+	   mm.product_name,
+	   mm.price,
+	   case when mm.product_name = 'sushi' then price*20 else price*10 end as customer_point,
+	   case when mm.product_name = 'sushi' then price*2 else price*1 end as customer_spent
+from sales as s
+left join members as m
+ON m.customer_id = s.customer_id
+left join menu as mm 
+ON mm.product_id = s.product_id
+)
+select 
+customer_id,
+sum(customer_point) as total_point,
+sum(customer_spent) as customer_total_spent
+from table1 
+group by 1
+
+````
+
+**10.n the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
+
+````sql
+with table1 as (
+select s.customer_id,
+	   s.order_date,
+	   m.join_date,
+	   case
+           when s.order_date < m.join_date + interval '1 week' then price*20
+           when mm.product_name = 'sushi' then price*20 else price*10 end as total_point
+from sales as s
+left join members as m
+ON m.customer_id = s.customer_id
+left join menu as mm 
+ON mm.product_id = s.product_id
+where order_date >= join_date 
+)
+select customer_id,
+	   sum(total_point) as total_point
+from table1
+where order_date between '2021-01-01' and '2021-01-31'
+group by 1
+
+````
+
