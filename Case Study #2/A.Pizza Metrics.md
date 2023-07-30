@@ -44,7 +44,7 @@ group by 1;
 **5.How many Vegetarian and Meatlovers were ordered by each customer?**
 
 ````sql
-elect 
+select 
 	co.customer_id,
 	pn.pizza_name,
 	count(co.order_id) as pizza_count
