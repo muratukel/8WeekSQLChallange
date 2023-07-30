@@ -222,3 +222,53 @@ group by 1
 
 ````
 
+**Bonus Question 1**
+
+````sql
+WITH TABLE1 AS
+	(SELECT S.CUSTOMER_ID,
+			S.ORDER_DATE,
+			M.JOIN_DATE,
+			MM.PRODUCT_NAME,
+			MM.PRICE,
+			CASE
+			 	WHEN S.ORDER_DATE >= M.JOIN_DATE THEN 'Y'
+				ELSE 'N'
+			END AS MEMBER
+		FROM SALES AS S
+		LEFT JOIN MEMBERS AS M ON M.CUSTOMER_ID = S.CUSTOMER_ID
+		LEFT JOIN MENU AS MM ON MM.PRODUCT_ID = S.PRODUCT_ID)
+SELECT CUSTOMER_ID,
+	ORDER_DATE,
+	JOIN_DATE,
+	PRODUCT_NAME PRICE,
+	MEMBER
+FROM TABLE1
+````
+
+**Bonus Question 2**
+
+````sql
+WITH table1 AS (
+SELECT s.customer_id,
+	   s.order_date,
+	   m.join_date,
+	   mm.product_name,
+	   mm.price,
+	   CASE WHEN s.order_date >= m.join_date THEN 'Y' ELSE 'N' END AS member
+FROM sales AS s
+LEFT JOIN members AS m
+	ON m.customer_id = s.customer_id
+LEFT JOIN menu AS mm 
+	ON mm.product_id = s.product_id
+)
+SELECT customer_id,
+	   order_date,
+	   join_date,
+	   product_name,
+	   price,
+	   member,
+	   CASE WHEN member = 'N' THEN NULL ELSE 
+	   	  RANK() OVER (PARTITION BY customer_id,member ORDER BY order_date) END AS ranking
+FROM table1
+````
