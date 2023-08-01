@@ -104,6 +104,90 @@ the desired action that takes place on the platform (e.g. purchase or registrati
 shows the percentage of the number of visitors who have realized their visit. This can be used for marketing and user 
 used to evaluate experience optimization.
 
-🚩Note: The above metrics are based on the type of business, its goals and 
+Note: The above metrics are based on the type of business, its goals and 
 depending on the field. Hence, the choice of metrics and their definitions, 
 must be tailored to the specific business.
+
+## 3.What are some key customer journeys or experiences that you would analyse further to improve customer retention?
+
+🚩Account Creation and Onboarding Experience: A customer's experience of signing up and first login to the Foodie-Fi platform, 
+how the customer experiences and evaluates the platform. Challenges in this process,
+
+🚩Content Discovery and Recommendations: How customers discover content and recommendations as they navigate the platform
+opportunities for analyzing impact, personalizing content recommendations and increasing customer loyalty
+can offer.
+
+🚩Customer Interaction and Feedback: Points of interaction with customers and customer feedback, 
+It is important to understand customer satisfaction and needs. Surveys, feedback forms and customer 
+to receive customer feedback through support interactions, identifying areas for improvement and potential issues 
+can provide valuable insights for detection.
+
+🚩Subscription Renewal Processes: Challenges customers face when renewing their subscriptions
+or subscription renewal rates can be increased by examining the impact of incentives.
+
+🚩Payment and Invoice Processing: Customers' experience with payment processes and invoice management, 
+is critical for customer satisfaction. A simple and hassle-free payment process, 
+can increase customer satisfaction.
+
+🚩Customer Relations and Support: Customer support and relations processes, 
+plays an important role in customers' interactions with the platform. 
+Analyze how customer complaints, questions and issues are handled, 
+important for improving the customer experience.
+
+🚩Loyalty Programs and Incentives: The impact of loyalty programs and incentives offered by Foodie-Fi 
+should be evaluated. The level and impact of customer participation in these programs, to increase loyalty 
+can help identify strategies that can be used to improve the customer experience and increase customer retention.
+
+These insights can help Foodie-Fi to improve the customer experience and increase customer retention. 
+will help it identify the areas it needs to focus on. Retention strategies based on the results of the analysis
+Based on this, it can aim to increase customer satisfaction and ensure long-term customer loyalty.
+
+## 4.If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
+
+🚩What is your reason for canceling your subscription?
+🚩How satisfied were you with the content and services on Foodie-Fi?
+🚩Did the price of your subscription influence your decision to cancel?
+🚩How was your experience using the Foodie-Fi platform? Did you find it user-friendly?
+🚩Did you encounter any technical issues while using Foodie-Fi? If yes, what kind of problems did you experience?
+🚩Did you find the content recommendations you received relevant and personalized to your interests?
+🚩Did you experience any problems with customer support during the course of your subscription?
+🚩Would you consider subscribing to Foodie-Fi again in the future?
+🚩How likely are you to recommend Foodie-Fi to a friend or family member?
+🚩Is there anything different Foodie-Fi could have done to prevent your cancellation?
+
+These questions will help you understand why customers cancel their subscriptions and what 
+will provide valuable insights to evaluate their experience. Understanding customer feedback, 
+It is an important step to improve Foodie-Fi's services and content and increase customer satisfaction.
+
+## 5.What business levers could the Foodie-Fi team use to reduce the customer churn rate? How would you validate the effectiveness of your ideas?
+
+The Foodie-Fi team can use the following commercial tools to reduce customer churn rate, and this is 
+can analyze ideas in a variety of ways to verify their effectiveness:
+
+🚩Content Strategy Refinement: Analyze the selection of content to attract and retain customers. 
+and improve its delivery. Conducting customer surveys, monitoring analysis and feedback 
+evaluating notifications can help them identify content preferences and customer needs.
+
+🚩Personalization and Recommendation Systems: Providing personalized content recommendations to customers,
+can keep customers engaged. Customer engagement using machine learning algorithms 
+They can offer personalized recommendations by analyzing their behavior and predicting their preferences.
+
+🚩Flexible Pricing and Plan Options: Offering affordable subscription options and flexible 
+pricing policies can encourage customer retention. Customer feedback 
+pricing strategies by evaluating their notifications and conducting market analyses.
+
+🚩Customer Service and Support: Providing excellent customer service can increase customer satisfaction
+and strengthen customer loyalty. Quickly respond to customer complaints and feedback
+and providing effective support to customers, they can gain trust.
+
+🚩Retention Campaigns and Loyalty Programs: Provide customers with exclusive content, discounts or loyalty 
+programs can increase customer loyalty. To measure the effectiveness of these campaigns, A/B 
+tests and customer surveys to gather feedback.
+
+To verify the effectiveness of these tools, the Foodie-Fi team uses A/B tests, customer surveys and 
+tracking analytics. For example, personalized content recommendations to customers 
+A/B tests to understand the impact on retention. Similarly, 
+customer satisfaction by conducting customer surveys after implementing retention campaigns
+and their level of engagement. These analyses can be used to continuously improve retention strategies.
+will provide important information to improve and increase customer loyalty.
+
