@@ -96,6 +96,7 @@ from eom;
 
 ## 5.What is the percentage of customers who increase their closing balance by more than 5%?
 
+````sql
 with table1 as 
 (
 select distinct customer_id,
@@ -144,3 +145,4 @@ from table4
 select round(count(customer_id) * 100.0 / (select count(customer_id) from table5),2) as percent_of_customers
 from table5
 where percent_change > 5
+ ````
