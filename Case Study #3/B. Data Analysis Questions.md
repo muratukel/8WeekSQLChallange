@@ -182,4 +182,29 @@ WITH annual_customer AS
 		GROUP BY period
 		ORDER BY customer_count DESC;
 ```
+### 11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+
+```sql
+with pm as 
+(select 
+	 customer_id,
+ start_date as first_date_pm
+from subscriptions
+	where plan_id = 2 and 
+		start_date between '2020-01-01' and '2020-12-31'
+)		
+, bm as 
+	
+	(select 
+		customer_id,
+	 start_date as first_date_bm
+from subscriptions
+	where plan_id = 1 and 
+		start_date between '2020-01-01' and '2020-12-31'
+)
+select count(*) as customer_count from pm 
+left join bm on bm.customer_id=pm.customer_id
+where pm.first_date_pm - bm.first_date_bm < 0
+;
+```
 
