@@ -70,7 +70,7 @@ select
 	from ranking as r
 	left join plans as p on p.plan_id = r.plan_id;
 ```
-### 5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
+### 6. What is the number and percentage of customer plans after their initial free trial?
 
 ```sql
 with rank_number_trial as 
@@ -91,5 +91,95 @@ left join plans as p on p.plan_id =rnt.plan_id
 where rnt.rn=2 
 group by 1,2 
 order by 1;
+```
+### 7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?
+
+```sql
+with ranking as 
+(
+select 
+	*,
+	rank() over(partition by customer_id order by start_date desc) as rn 
+	from subscriptions 
+	where start_date <= '2020-12-31'
+	
+)
+select 
+	p.plan_name,
+	count(r.plan_id) as customer_count ,
+	round(count(r.plan_id)*1.0/(select count(distinct customer_id) from ranking )*1.0*100,2)	
+from ranking as r 
+	left join plans as p on p.plan_id=r.plan_id 
+	where r.rn=1 
+	group by 1 
+	order by 2 desc	;
+```
+
+### 8. How many customers have upgraded to an annual plan in 2020?
+
+
+```sql
+select 
+     	count(distinct customer_id) as customer_count
+from subscriptions
+	where plan_id = 3 and 
+		start_date between '2020-01-01' and '2020-12-31';
+```
+
+### 9. How many days on average does it take for a customer to upgrade to an annual plan from the day they join Foodie-Fi?
+
+````sql
+with annual_customer as 
+(
+	select 
+		customer_id,
+		min(start_date) as first_date_annual
+	from subscriptions 
+		where plan_id = 3 
+	group by 1 
+), trial_customer as 
+(
+	select 
+		customer_id,
+		min(start_date) as first_date_trial
+	from subscriptions 
+		where plan_id = 0 
+	group by 1 
+) 
+select 		
+	round(avg((first_date_annual-first_date_trial)),0)
+		from annual_customer as ac 
+		left join trial_customer as tc on tc.customer_id=ac.customer_id ;
+````
+
+### 10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+
+```sql
+WITH annual_customer AS 
+(
+	SELECT 
+		customer_id,
+		MIN(start_date) AS first_date_annual
+	FROM subscriptions 
+		WHERE plan_id=3 
+	GROUP BY 1 
+	
+), trial_customer AS 
+(
+	SELECT 
+		customer_id,
+		MIN(start_date) AS first_date_trial
+	FROM subscriptions 
+		WHERE plan_id=0
+	GROUP BY 1 
+) 
+	SELECT 	
+	COUNT(ac.customer_id) AS customer_count,
+			ROUND(AVG((first_date_annual-first_date_trial)), 0) AS avg_days_to_annual,
+			ROUND((first_date_annual-first_date_trial) / 30) AS period
+		FROM annual_customer AS ac 
+		LEFT JOIN trial_customer AS tc ON tc.customer_id = ac.customer_id 
+		GROUP BY period
+		ORDER BY customer_count DESC;
 ```
 
