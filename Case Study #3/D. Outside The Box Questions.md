@@ -145,14 +145,23 @@ Based on this, it can aim to increase customer satisfaction and ensure long-term
 ## 4.If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
 
 🚩What is your reason for canceling your subscription?
+
 🚩How satisfied were you with the content and services on Foodie-Fi?
+
 🚩Did the price of your subscription influence your decision to cancel?
+
 🚩How was your experience using the Foodie-Fi platform? Did you find it user-friendly?
+
 🚩Did you encounter any technical issues while using Foodie-Fi? If yes, what kind of problems did you experience?
+
 🚩Did you find the content recommendations you received relevant and personalized to your interests?
+
 🚩Did you experience any problems with customer support during the course of your subscription?
+
 🚩Would you consider subscribing to Foodie-Fi again in the future?
+
 🚩How likely are you to recommend Foodie-Fi to a friend or family member?
+
 🚩Is there anything different Foodie-Fi could have done to prevent your cancellation?
 
 These questions will help you understand why customers cancel their subscriptions and what 
