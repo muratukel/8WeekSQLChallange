@@ -47,3 +47,20 @@ select
 | Average Unique Quantity |
 |-------------------------|
 |         6.04            |
+## 3.What are the 25th, 50th and 75th percentile values for the revenue per transaction?
+````sql	
+with txn_revenue_cte as 
+(select 
+	txn_id,
+	sum(price*qty) as txn_revenue 
+from sales 
+group by 1 )
+select 
+	 PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY txn_revenue) AS q25_revenue,
+    PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY txn_revenue) AS q50_revenue,
+    PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY txn_revenue) AS q75_revenue
+from txn_revenue_cte
+````
+| Q25 Revenue | Q50 Revenue | Q75 Revenue |
+|-------------|-------------|-------------|
+|   375.75    |    509.5    |    647      |
