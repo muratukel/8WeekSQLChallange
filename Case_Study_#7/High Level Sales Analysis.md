@@ -3,7 +3,8 @@
 
 ## 1.What was the total quantity sold for all products?
 ## 1. Tüm ürünler için satılan toplam miktar ne kadardı?
-	 ````sql
+
+````sql
 select 	
 	pd.product_name,
 	sum(qty) as total_quantity
