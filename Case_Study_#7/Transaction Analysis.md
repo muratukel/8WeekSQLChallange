@@ -1,13 +1,16 @@
 ## 🖇️Case Study #7 - Balanced Tree Clothing Co.
 ## 📎Transaction Analysis
 
-## 1.How many unique transactions were there?
-	 
+## 1.How many unique transactions were there? 
 ```sql	 
 select 
 	count(distinct txn_id) as total_transactions 
 from sales	
 ```
+| Total Transactions |
+|---------------------|
+|        2500         |
+
 ## 2.What is the average unique products purchased in each transaction
 # According to the number of quantities
 ````sql
@@ -23,6 +26,10 @@ select
 	round(avg(unique_qty),2) as avg_unique_qty
  from in_each_transaction
 ````
+| Average Unique Quantity |
+|-------------------------|
+|         18.09           |
+
 # According to the number of products
 ````sql
 with in_each_transaction as 
@@ -37,3 +44,6 @@ select
 	round(avg(unique_prod),2) as avg_unique_qty
  from in_each_transaction
 ````
+| Average Unique Quantity |
+|-------------------------|
+|         6.04            |
