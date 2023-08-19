@@ -119,4 +119,24 @@ from sales
 | member    | non_member |
 |-----------|------------|
 | 60.03     | 39.97      |
-
+## 6.What is the average revenue for member transactions and non-member transactions?
+````sql
+with txn_transaction as 
+(
+select 
+	txn_id,
+	member,
+	sum(price*qty) as revenue 
+from sales 
+	group by 1,2
+)
+select 
+	member,
+	round(avg(revenue),2) as total_revenue
+from txn_transaction
+	group by 1
+````
+| member | total_revenue |
+|--------|---------------|
+| false  |      515.04   |
+| true   |      516.27   |
