@@ -64,3 +64,59 @@ from txn_revenue_cte
 | Q25 Revenue | Q50 Revenue | Q75 Revenue |
 |-------------|-------------|-------------|
 |   375.75    |    509.5    |    647      |
+
+## 4.What is the average discount value per transaction?
+	
+````sql
+with discount_transaction as 
+(
+select 
+	txn_id,
+	sum(price*qty*discount/100) as value_discount
+from sales 
+	group by 1
+)
+select 
+	round(avg(value_discount),2) as avg_discount_value
+from discount_transaction
+````
+| avg_discount_value |
+|-------------------|
+|       59.79       |
+
+## 5.What is the percentage split of all transactions for members vs non-members?
+	 
+# ROAD 1
+````sql
+with txn_transaction as 
+(
+select 
+		member,
+		count(distinct txn_id) as transactions 
+from sales 
+	group by 1
+)
+select 
+	member,
+	transactions,
+	round((transactions*1.0/(select count(distinct txn_id) from sales)*1.0)*100,2) as ratio
+from txn_transaction
+````
+| member | transactions | ratio  |
+|--------|--------------|--------|
+| false  | 995          | 39.80  |
+| true   | 1505         | 60.20  |
+
+# ROAD 2
+````sql
+select 
+	round(sum(case 
+			when member='t' then 1 else 0 end)*100.0/count(*),2) as member,
+	round(sum(case 
+			when member='f' then 1 else 0 end)*100.0/count(*),2) as non_member
+from sales
+````
+| member    | non_member |
+|-----------|------------|
+| 60.03     | 39.97      |
+
