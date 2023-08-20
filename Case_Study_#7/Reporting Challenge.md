@@ -33,7 +33,7 @@ left join sales as s
 	on s.prod_id=pd.product_id
 where extract(month from start_txn_time) in (1,2)	
 	group by 1,2,3,4
-		````
+````
 | prod_id   | product_id | category_name | segment_name | total_quantity | total_revenue_before_discount | total_revenue_with_discount | total_discount | total_transactions | penetration | member | non_member | avg_revenue_member | avg_revenue_non_member |
 |-----------|------------|---------------|--------------|----------------|-------------------------------|-----------------------------|----------------|-------------------|-------------|--------|------------|-------------------|-----------------------|
 | "2a2353"  | "2a2353"   | "Mens"        | "Shirt"      | 2495           | 142215                        | 124722.84                   | 17079          | 832               | 33.28       | 62.50  | 37.50      | 149.33            | 150.86                |
