@@ -36,7 +36,8 @@ select
 from product_details_two as pdt 
 left join product_prices as pp 
 	on pp.id=pdt.style_id
-	````
+````
+
 # ROAD 2
 ````sql
 with gender as
