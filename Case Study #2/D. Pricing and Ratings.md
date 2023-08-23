@@ -41,6 +41,9 @@ where ro.cancellation is null
       concat(nep.pr_prices+ep.ext_price) as pizza_runner_revenue
 from no_extras_price as nep, extras_price  as ep;
 ```
+| pizza_runner_revenue |   
+|----------------------|
+|        155           |  
 
 ### 3.The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
 
