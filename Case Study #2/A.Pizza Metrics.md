@@ -8,6 +8,9 @@
 select count(pizza_id) as total_order_pizza
 	from customer_orders;
 ````
+| total_order_pizza |
+|------------------:|
+|                14 |
 
 **2. How many unique customer orders were made?**
 
