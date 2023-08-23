@@ -972,23 +972,6 @@ where ro.cancellation is null
 	select concat(nep.pr_prices+ep.ext_price) as pizza_runner_revenue from no_extras_price as nep, extras_price  as ep
 
 
-
-
-WITH ex_bool_list AS (
-SELECT 
- co.order_id,
- co.pizza_id,
- co.extras,
- CASE WHEN position(',' IN co.extras) > 0 THEN TRUE ELSE FALSE END AS ex_bool,
- sum(CASE WHEN co.pizza_id = 1 THEN 12 ELSE 10 END) AS pr_prices
- FROM customer_orders AS co
- LEFT JOIN runner_orders AS ro ON co.order_id = ro.order_id
- WHERE ro.cancellation IS NULL
-	group by 1,2,3
-
-), 
-
-
 -3--)
 
 create table runner_rating (
