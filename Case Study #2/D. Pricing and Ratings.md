@@ -7,11 +7,14 @@
 ```sql
 select
     sum(case 
-				when co.pizza_id = 1 then 12 else 10 end) as pr_prices
+  	when co.pizza_id = 1 then 12 else 10 end) as pr_prices
 from customer_orders  as co	
 left join runner_orders as ro on co.order_id= ro.order_id
 where ro.cancellation is null;
 ```
+|   pr_prices  |  
+|--------------|
+|     138      |  
 ### 2.What if there was an additional $1 charge for any pizza extras? --Add cheese is $1 extra
 
 ```sql
