@@ -46,6 +46,12 @@ FROM SALES AS S
 LEFT JOIN MENU AS M ON M.PRODUCT_ID = S.PRODUCT_ID
 GROUP BY 1;
 ````
+| customer_id | total_spent |
+|-------------|-------------|
+| "B"         | 74          |
+| "C"         | 36          |
+| "A"         | 76          |
+
 
 **2.How many days has each customer visited the restaurant?**
 
@@ -55,6 +61,12 @@ SELECT CUSTOMER_ID,
 FROM SALES
 GROUP BY 1;
 ````
+| customer_id | visit_count |
+|-------------|-------------|
+| "A"         | 4           |
+| "B"         | 6           |
+| "C"         | 2           |
+
 **3.What was the first item from the menu purchased by each customer?**
 
 ````sql
@@ -68,6 +80,12 @@ WHERE S.ORDER_DATE =
 			FROM SALES)
 ORDER BY S.ORDER_DATE;
 ````
+| customer_id | product_name | order_date  |
+|-------------|--------------|-------------|
+| "A"         | "sushi"      | "2021-01-01"|
+| "A"         | "curry"      | "2021-01-01"|
+| "B"         | "curry"      | "2021-01-01"|
+| "C"         | "ramen"      | "2021-01-01"|
 
 **4.What is the most purchased item on the menu and how many times was it purchased by all customers?**
 
@@ -81,6 +99,9 @@ GROUP BY 1
 ORDER BY TOTAL_ORDER DESC
 LIMIT 1;
 ````
+| product_name | total_order |
+|--------------|-------------|
+| "ramen"      | 8           |
 
 **5.Which item was the most popular for each customer?**
 
@@ -104,6 +125,13 @@ select
 	from customer_product_sales 
  where rank=1;
 ````
+| customer_id | product_name | popular_order |
+|-------------|--------------|---------------|
+| "A"         | "ramen"      | 3             |
+| "B"         | "sushi"      | 2             |
+| "B"         | "curry"      | 2             |
+| "B"         | "ramen"      | 2             |
+| "C"         | "ramen"      | 3             |
 
 **6.Which item was purchased first by the customer after they became a member?**
 
@@ -126,6 +154,11 @@ from table1
 where rank_ = 1
 
 ````
+| customer_id | order_date  | join_date   | product_name | rank_ |
+|-------------|-------------|-------------|--------------|-------|
+| "A"         | "2021-01-07"| "2021-01-07"| "curry"      | 1     |
+| "B"         | "2021-01-11"| "2021-01-09"| "sushi"      | 1     |
+
 **7.Which item was purchased just before the customer became a member?**
 
 ````sql
@@ -147,6 +180,11 @@ from table1
 where rank_ = 1
 
 ````
+| customer_id | order_date  | join_date   | product_name | rank_ |
+|-------------|-------------|-------------|--------------|-------|
+| "A"         | "2021-01-01"| "2021-01-07"| "sushi"      | 1     |
+| "A"         | "2021-01-01"| "2021-01-07"| "curry"      | 1     |
+| "B"         | "2021-01-04"| "2021-01-09"| "sushi"      | 1     |
 
 **8.What is the total items and amount spent for each member before they became a member?**
 
@@ -171,6 +209,10 @@ from table1
 group by 1
 
 ````
+| customer_id | total_spend | count_product |
+|-------------|-------------|---------------|
+| "B"         | 40          | 3             |
+| "A"         | 25          | 2             |
 
 **9.If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 
@@ -196,6 +238,11 @@ from table1
 group by 1
 
 ````
+| customer_id | total_point | customer_total_spent |
+|-------------|-------------|----------------------|
+| "A"         | 860         | 86                   |
+| "B"         | 940         | 94                   |
+| "C"         | 360         | 36                   |
 
 **10.n the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
 
@@ -221,6 +268,10 @@ where order_date between '2021-01-01' and '2021-01-31'
 group by 1
 
 ````
+| customer_id | total_point |
+|-------------|-------------|
+| "B"         | 320         |
+| "A"         | 1020        |
 
 **Bonus Question 1**
 
@@ -231,10 +282,7 @@ WITH TABLE1 AS
 			M.JOIN_DATE,
 			MM.PRODUCT_NAME,
 			MM.PRICE,
-			CASE
-			 	WHEN S.ORDER_DATE >= M.JOIN_DATE THEN 'Y'
-				ELSE 'N'
-			END AS MEMBER
+			CASE WHEN S.ORDER_DATE >= M.JOIN_DATE THEN 'Y' ELSE 'N'END AS MEMBER
 		FROM SALES AS S
 		LEFT JOIN MEMBERS AS M ON M.CUSTOMER_ID = S.CUSTOMER_ID
 		LEFT JOIN MENU AS MM ON MM.PRODUCT_ID = S.PRODUCT_ID)
@@ -245,6 +293,23 @@ SELECT CUSTOMER_ID,
 	MEMBER
 FROM TABLE1
 ````
+| customer_id | order_date  | join_date   | price  | member |
+|-------------|-------------|-------------|--------|--------|
+| "A"         | "2021-01-07"| "2021-01-07"| "curry"| "Y"    |
+| "A"         | "2021-01-11"| "2021-01-07"| "ramen"| "Y"    |
+| "A"         | "2021-01-11"| "2021-01-07"| "ramen"| "Y"    |
+| "A"         | "2021-01-10"| "2021-01-07"| "ramen"| "Y"    |
+| "A"         | "2021-01-01"| "2021-01-07"| "sushi"| "N"    |
+| "A"         | "2021-01-01"| "2021-01-07"| "curry"| "N"    |
+| "B"         | "2021-01-04"| "2021-01-09"| "sushi"| "N"    |
+| "B"         | "2021-01-11"| "2021-01-09"| "sushi"| "Y"    |
+| "B"         | "2021-01-01"| "2021-01-09"| "curry"| "N"    |
+| "B"         | "2021-01-02"| "2021-01-09"| "curry"| "N"    |
+| "B"         | "2021-01-16"| "2021-01-09"| "ramen"| "Y"    |
+| "B"         | "2021-02-01"| "2021-01-09"| "ramen"| "Y"    |
+| "C"         | "2021-01-01"|             | "ramen"| "N"    |
+| "C"         | "2021-01-01"|             | "ramen"| "N"    |
+| "C"         | "2021-01-07"|             | "ramen"| "N"    |
 
 **Bonus Question 2**
 
@@ -272,3 +337,20 @@ SELECT customer_id,
 	   	  RANK() OVER (PARTITION BY customer_id,member ORDER BY order_date) END AS ranking
 FROM table1
 ````
+| customer_id | order_date  | join_date   | product_name | price | member | ranking |
+|-------------|-------------|-------------|--------------|-------|--------|---------|
+| "A"         | "2021-01-01"| "2021-01-07"| "sushi"      | 10    | "N"    |         |
+| "A"         | "2021-01-01"| "2021-01-07"| "curry"      | 15    | "N"    |         |
+| "A"         | "2021-01-07"| "2021-01-07"| "curry"      | 15    | "Y"    | 1       |
+| "A"         | "2021-01-10"| "2021-01-07"| "ramen"      | 12    | "Y"    | 2       |
+| "A"         | "2021-01-11"| "2021-01-07"| "ramen"      | 12    | "Y"    | 3       |
+| "A"         | "2021-01-11"| "2021-01-07"| "ramen"      | 12    | "Y"    | 3       |
+| "B"         | "2021-01-01"| "2021-01-09"| "curry"      | 15    | "N"    |         |
+| "B"         | "2021-01-02"| "2021-01-09"| "curry"      | 15    | "N"    |         |
+| "B"         | "2021-01-04"| "2021-01-09"| "sushi"      | 10    | "N"    |         |
+| "B"         | "2021-01-11"| "2021-01-09"| "sushi"      | 10    | "Y"    | 1       |
+| "B"         | "2021-01-16"| "2021-01-09"| "ramen"      | 12    | "Y"    | 2       |
+| "B"         | "2021-02-01"| "2021-01-09"| "ramen"      | 12    | "Y"    | 3       |
+| "C"         | "2021-01-01"|             | "ramen"      | 12    | "N"    |         |
+| "C"         | "2021-01-01"|             | "ramen"      | 12    | "N"    |         |
+| "C"         | "2021-01-07"|             | "ramen"      | 12    | "N"    |         |
