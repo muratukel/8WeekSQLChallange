@@ -74,3 +74,17 @@ select
      payment_order 
 from cte3;
 ```
+| customer_id | plan_id |   plan_name    | payment_date |  amount  | payment_order |
+|-------------|---------|----------------|--------------|----------|---------------|
+|      1      |    1    | basic monthly  |  2020-08-08  |   9.90   |       1       |
+|      1      |    1    | basic monthly  |  2020-09-08  |   9.90   |       2       |
+|      1      |    1    | basic monthly  |  2020-10-08  |   9.90   |       3       |
+|      1      |    1    | basic monthly  |  2020-11-08  |   9.90   |       4       |
+|      1      |    1    | basic monthly  |  2020-12-08  |   9.90   |       5       |
+|      2      |    3    |  pro annual    |  2020-09-27  |  199.00  |       1       |
+|      3      |    1    | basic monthly  |  2020-01-20  |   9.90   |       1       |
+|      3      |    1    | basic monthly  |  2020-02-20  |   9.90   |       2       |
+|      3      |    1    | basic monthly  |  2020-03-20  |   9.90   |       3       |
+|      3      |    1    | basic monthly  |  2020-04-20  |   9.90   |       4       |
+
+# The first 10 lines are shown. The total number of ouput lines is 5083.
