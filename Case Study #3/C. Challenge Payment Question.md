@@ -1,3 +1,4 @@
+## ⚡ Case Study #3 - Foodie-Fi
 ### :basecampy: C. Challenge Payment Question
 
 The Foodie-Fi team wants you to create a new payments table for the year 2020 that includes amounts paid by each customer in the subscriptions table with the following requirements:
