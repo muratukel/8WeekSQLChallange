@@ -147,4 +147,4 @@ where im.interest_id = 21246
 |   1    | 2019  |  2019-01-01  |    21246    |     2.05    |     0.76    |   954   |       1.95        | Readers of El Salvadoran Content | People reading news from El Salvadoran media sources. | 2018-06-11 17:50:04 | 2018-06-11 17:50:04 |
 |   2    | 2019  |  2019-02-01  |    21246    |     1.84    |     0.68    |   1109  |       1.07        | Readers of El Salvadoran Content | People reading news from El Salvadoran media sources. | 2018-06-11 17:50:04 | 2018-06-11 17:50:04 |
 |   3    | 2019  |  2019-03-01  |    21246    |     1.75    |     0.67    |   1123  |       1.14        | Readers of El Salvadoran Content | People reading news from El Salvadoran media sources. | 2018-06-11 17:50:04 | 2018-06-11 17:50:04 |
-|   4    | 2019  |  2019-04-01  |    21246    |     1.58    |     0.63    |   1092  |       0.64        | Readers of El Salvador
+|   4    | 2019  |  2019-04-01  |    21246    |     1.58    |     0.63    |   1092  |       0.64        | Readers of El Salvadoran Content | People reading news from El Salvadoran media sources. | 2018-06-11 17:50:04 | 2018-06-11 17:50:04 |
