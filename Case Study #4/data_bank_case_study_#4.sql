@@ -48,7 +48,7 @@ select * from regions
 
 
 select 
-	avg(end_date-start_date) as avg_number 
+	round(avg(end_date-start_date),2) as avg_number 
 from customer_nodes 
 where end_date != '9999-12-31'
 
@@ -115,8 +115,8 @@ with deposit as
 	order by 1
 )
 select txn_type ,
-avg(deposit_count) as avg_deposit_count,
-avg(deposit_amount) as avg_deposit_amount
+round(avg(deposit_count),2) as avg_deposit_count,
+round(avg(deposit_amount),2) as avg_deposit_amount
 from deposit 
 group by 1
 
@@ -166,7 +166,6 @@ select
 select customer_id,
 		 to_char("end_of_month",'Month') as month_name,
 		    sum(total_amount) over(partition by customer_id order by end_of_month) as closing_balance
- 
 from eom
 
 /*
