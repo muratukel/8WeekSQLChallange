@@ -2970,7 +2970,7 @@ with annual_customer as
 	group by 1 
 ) 
 	select 		
-			round(avg((first_date_annual-first_date_trial)),0)
+			round(avg((first_date_annual-first_date_trial)),0) as avg_days
 		from annual_customer as ac 
 		left join trial_customer as tc on tc.customer_id=ac.customer_id 
 		
