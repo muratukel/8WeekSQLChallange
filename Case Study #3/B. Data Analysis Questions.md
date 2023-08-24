@@ -7,6 +7,9 @@ select
      count(distinct customer_id) as total_customer 
 from subscriptions;
 ```
+| total_customer |
+|---------------|
+|     1000      |
 
 ### 2. What is the monthly distribution of trial plan start_date values for our dataset - use the start of the month as the group by value
 
@@ -20,6 +23,20 @@ where p.plan_name = 'trial'
 group by month_distribution
 order by month_distribution asc;
 ```
+| month_distribution | customer_trial |
+|-------------------|----------------|
+|        "01"       |       88       |
+|        "02"       |       68       |
+|        "03"       |       94       |
+|        "04"       |       81       |
+|        "05"       |       88       |
+|        "06"       |       79       |
+|        "07"       |       89       |
+|        "08"       |       88       |
+|        "09"       |       87       |
+|        "10"       |       79       |
+|        "11"       |       75       |
+|        "12"       |       84       |
 
 ### 3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name.
 
