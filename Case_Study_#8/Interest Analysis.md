@@ -23,6 +23,8 @@ having count(distinct im.month_year) = (select count(distinct month_year) from i
 | Apartment Hunters                                          |
 | Apple Fans                                                 |
 
+# the first 10 lines.
+
 ROAD 2
 #❗here I look at how many unique interest_name and month_year values I end the query with(cte).
 ````sql
