@@ -46,3 +46,54 @@ Thus, the most suitable approach in our case is to **remove those NULL values**.
 DELETE FROM interest_metrics
 WHERE month_year IS NULL
 ````
+## 4.How many interest_id values exist in the fresh_segments.interest_metrics table but not in the fresh_segments.interest_map table? What about the other way around?
+
+````sql
+ALTER TABLE interest_metrics
+ALTER COLUMN interest_id TYPE INTEGER USING interest_id::integer;
+````
+ROAD 1
+````sql
+select
+	
+    (select count(distinct im.interest_id) 
+     from interest_metrics as im
+     left join interest_map as i on im.interest_id = i.id
+     where i.id is null) as missing_in_metrics,
+
+    (select count(distinct i.id)
+     from interest_map as i
+     left join interest_metrics as im on i.id = im.interest_id
+     where im.interest_id is null) as missing_in_map;
+````
+ROAD 2
+````sql
+select 
+	count(distinct i.interest_id) as interest_id_metrics,
+	count(distinct im.id) as interest_id_map ,
+	sum(case 
+	   		when im.id is null then 1 end) as missing_in_metric,
+	sum(case
+	   		when i.interest_id is null then 1 end ) missing_in_map
+from interest_metrics as i
+full outer join interest_map as im
+	on im.id=i.interest_id
+````
+ROAD 2
+# I wanted to write with cte maybe you can understand better.
+````sql
+with metricsmissing as (
+    select count(distinct im.interest_id) as missing_in_metrics
+    from interest_metrics as im
+    left join interest_map as i on im.interest_id = i.id
+    where i.id is null
+),
+mapmissing as (
+    select count(distinct i.id) as missing_in_map
+    from interest_map as i
+    left join interest_metrics as im on i.id = im.interest_id
+    where im.interest_id is null
+)
+select metricsmissing.missing_in_metrics, mapmissing.missing_in_map
+from metricsmissing, mapmissing;
+````
