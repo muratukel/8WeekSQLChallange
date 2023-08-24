@@ -114,6 +114,8 @@ VALUES
   (11, 'Tomatoes'),
   (12, 'Tomato Sauce');
   
+----------------------------------------------------------------------  
+  
 --DATA CLEAN (customer_orders)
 
   CREATE TABLE customer_orders_clean AS
@@ -205,7 +207,7 @@ SELECT order_id,
        order_time
 FROM customer_orders
 
-CREATE VIEW my_view2 AS
+CREATE VIEW customer_orders_ AS
 SELECT order_id,
        customer_id,
        pizza_id,
@@ -321,7 +323,7 @@ from customer_orders as co
 left join runner_orders as ro on ro.order_id = co. order_id
 where ro.cancellation is null
 group by 1,2
-order by max_pizza desc
+order by max_pizza_count desc
 limit 1
 
 --7-)Her bir müşteri için, teslim edilen pizzaların 
@@ -424,22 +426,22 @@ select * from runner_orders
 
 select * from customer_orders 
 
+
 with diff_order_pick as 
 (select 
-
-	distinct runner_id,
-	avg(age(ro.pickup_time::timestamp,co.order_time::timestamp) ) as avg_diff_order_pick
-	from runner_orders as ro
-left join customer_orders as co on co.order_id = roage(ro.pickup_time::timestamp,co.order_time::timestamp).order_id
+    runner_id,
+    avg(extract(epoch from (ro.pickup_time - co.order_time))) as avg_diff_order_pick
+    from runner_orders as ro
+left join customer_orders as co on co.order_id = ro.order_id
 group by 1 
-order by 1)
+)
 
-select 	
-		distinct runner_id,
-		extract(minute from avg_diff_order_pick)
-		
-	from diff_order_pick
-		order by 1
+select 
+    runner_id,
+    extract(minute from timestamp 'epoch' + avg_diff_order_pick * interval '1 second') as avg_minutes_diff_order_pick
+from diff_order_pick
+order by 1;
+
 
 --3-)Is there any relationship between the number of pizzas and how long the order takes to prepare?
 --3-)Pizza sayısı ile siparişin ne kadar sürede hazırlandığı arasında bir ilişki var mı?
@@ -499,8 +501,7 @@ order by 1
 select 
 		count(co.order_id) as total_orders,
 		max(ro.pickup_time) as longest_delivered,
-		min(ro.pickup_time) as shortest_delivered
-		
+		min(ro.pickup_time) as shortest_delivered		
 from customer_orders as co
 left join runner_orders as ro on ro.order_id = co.order_id 
 where ro.cancellation is null
@@ -677,239 +678,39 @@ left join pizza_toppings as pt on pt.topping_id = e.exclusions
 group by 1
 order by count_exclusion desc
 
+
 --4-)Generate an order item for each record in the customers_orders table in the format of one of the following:
 	Meat Lovers
 	Meat Lovers - Exclude Beef
 	Meat Lovers - Extra Bacon
 	Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
 --4-)customers_orders tablosundaki her kayıt için aşağıdakilerden biri biçiminde bir sipariş öğesi oluşturun:
-		Et Severler
-		Et Severler - Sığır eti hariç
-		Et Severler - Ekstra Pastırma
-		Et Severler - Peynir, Pastırma Hariç - Ekstra Mantar, Biber	
+	Et Severler
+	Et Severler - Sığır eti hariç
+	Et Severler - Ekstra Pastırma
+	Et Severler - Peynir, Pastırma Hariç - Ekstra Mantar, Biber	
 		
-select * from customer_orders 
-
-select * from pizza_toppings
-
-with exc_ext as 
-
-(select 
- 		order_id,
-		pizza_id,
-		unnest(string_to_array(exclusions,','))::numeric as exclusions,
-		unnest(string_to_array(extras,','))::numeric as extras
-
-from customer_orders 
-
-)
-
-select 
-		ee.order_id,
-		ee.pizza_id,
-		pn.pizza_name,
-		ee.exclusions,
-		ee.extras,
-		
-		CASE
-WHEN pizza_id = 1 AND exclusions IS NULL AND extras IS NULL  THEN 'Meat Lovers'
-when pizza_id=1 and (exclusions like '%3%' or exclusions =3) and (extras is null or extras=0) then 'Meat Lovers - Exclude Beef'
-when pizza_id =1 and (exclusions is null or exclusions=0) and (extras like '%1%' or extras =1) then 'Meat Lovers - Extra Bacon'
-when customer_orders1.pizza_id=1 and (exclusions like '1, 4' ) and (extras like '6, 9') then 'Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers'
-
-from exc_ext as ee
-
-left join pizza_names as pn on pn.pizza_id = ee.pizza_id 
-
-
-
-
-WITH exc_ext AS (
-    SELECT 
-        order_id,
-        pizza_id,
-        unnest(string_to_array(exclusions, ','))::numeric AS exclusions,
-        unnest(string_to_array(extras, ','))::numeric AS extras
-    FROM customer_orders 
-)
-SELECT
-    ee.order_id,
-    ee.pizza_id,
-    pn.pizza_name,
-    ee.exclusions,
-    ee.extras,
-    CASE
-        WHEN ee.pizza_id = 1 AND exclusions IS NULL AND extras IS NULL THEN 'Meat Lovers'
-        WHEN ee.pizza_id = 1 AND (exclusions LIKE '%3%' OR exclusions = 3) AND (extras IS NULL OR extras = 0) THEN 'Meat Lovers - Exclude Beef'
-        WHEN ee.pizza_id = 1 AND (exclusions IS NULL OR exclusions = 0) AND (extras LIKE '%1%' OR extras = 1) THEN 'Meat Lovers - Extra Bacon'
-        WHEN ee.pizza_id = 1 AND exclusions LIKE '1,4' AND extras LIKE '6,9' THEN 'Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers'
-    END AS OrderItem
-FROM
-    exc_ext AS ee
-LEFT JOIN pizza_names AS pn ON pn.pizza_id = ee.pizza_id;
-
-
-
-
-
-WITH exc_ext AS (
-    SELECT 
-        order_id,
-        pizza_id,
-        unnest(string_to_array(exclusions, ','))::numeric AS exclusions,
-        unnest(string_to_array(extras, ','))::numeric AS extras
-    FROM customer_orders
-)
-SELECT
-    ee.order_id,
-    ee.pizza_id,
-    pn.pizza_name,
-    ee.exclusions,
-    ee.extras,
-    CASE
-        WHEN ee.pizza_id = 1 AND exclusions IS NULL AND extras IS NULL THEN 'Meat Lovers'
-        WHEN ee.pizza_id = 1 AND (CAST(exclusions AS TEXT) LIKE '%3%' OR exclusions = 3) AND (extras IS NULL OR extras = 0) THEN 'Meat Lovers - Exclude Beef'
-        WHEN ee.pizza_id = 1 AND (exclusions IS NULL OR exclusions = 0) AND (CAST(extras AS TEXT) LIKE '%1%' OR extras = 1) THEN 'Meat Lovers - Extra Bacon'
-        WHEN ee.pizza_id = 1 AND CAST(exclusions AS TEXT) LIKE '1,4' AND CAST(extras AS TEXT) LIKE '6,9' THEN 'Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers'
-    END AS OrderItem
-FROM
-    exc_ext AS ee
-LEFT JOIN pizza_names AS pn ON pn.pizza_id = ee.pizza_id;
-
-
-
-
-
-
-select 
- 		co.order_id,
-		co.pizza_id,
- 		pn.pizza_name,
-		unnest(string_to_array(exclusions,','))::numeric as exclusions,
-		unnest(string_to_array(extras,','))::numeric as extras,
- CASE
-WHEN pizza_id = 1 AND exclusions IS NULL AND extras IS NULL  THEN 'Meat Lovers'
-when pizza_id=1 and (exclusions like '%3%' or exclusions =3) and (extras is null or extras=0) then 'Meat Lovers - Exclude Beef'
-when pizza_id =1 and (exclusions is null or exclusions=0) and (extras like '%1%' or extras =1) then 'Meat Lovers - Extra Bacon'
-when customer_orders1.pizza_id=1 and (exclusions like '1, 4' ) and (extras like '6, 9') then 'Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers'
-
-
-from customer_orders as co 
- left join pizza_names as pn on pn.pizza_id = co.pizza_id
-
-
-
-SELECT
-    co.order_id,
-    co.pizza_id,
-    pn.pizza_name,
-    unnest(string_to_array(exclusions, ','))::numeric AS exclusions,
-    unnest(string_to_array(extras, ','))::numeric AS extras,
-    CASE
-        WHEN co.pizza_id = 1 AND exclusions IS NULL AND extras IS NULL THEN 'Meat Lovers'
-        WHEN co.pizza_id = 1 AND (exclusions LIKE '%3%' OR exclusions = 3) AND (extras IS NULL OR extras = 0) THEN 'Meat Lovers - Exclude Beef'
-        WHEN co.pizza_id = 1 AND (exclusions IS NULL OR exclusions = 0) AND (extras LIKE '%1%' OR extras = 1) THEN 'Meat Lovers - Extra Bacon'
-        WHEN co.pizza_id = 1 AND exclusions LIKE '1,4' AND extras LIKE '6,9' THEN 'Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers'
-    END AS OrderItem
-FROM
-    customer_orders AS co
-LEFT JOIN pizza_names AS pn ON pn.pizza_id = co.pizza_id;
-
-
-SELECT
-    co.order_id,
-    co.pizza_id,
-    pn.pizza_name,
-    unnest(string_to_array(exclusions, ','))::numeric AS exclusions,
-    unnest(string_to_array(extras, ','))::numeric AS extras,
-    CASE
-        WHEN co.pizza_id = 1 AND exclusions IS NULL AND extras IS NULL THEN 'Meat Lovers'
-        WHEN co.pizza_id = 1 AND (exclusions LIKE '%3%' OR exclusions::numeric = 3) AND (extras IS NULL OR extras = 0) THEN 'Meat Lovers - Exclude Beef'
-        WHEN co.pizza_id = 1 AND (exclusions IS NULL OR exclusions::numeric = 0) AND (extras LIKE '%1%' OR extras = 1) THEN 'Meat Lovers - Extra Bacon'
-        WHEN co.pizza_id = 1 AND exclusions LIKE '1,4' AND extras LIKE '6,9' THEN 'Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers'
-    END AS OrderItem
-FROM
-    customer_orders AS co
-LEFT JOIN pizza_names AS pn ON pn.pizza_id = co.pizza_id;
-
-
-SELECT
-    co.order_id,
-    co.pizza_id,
-    pn.pizza_name,
-    unnest(string_to_array(exclusions, ','))::numeric AS exclusions,
-    unnest(string_to_array(extras, ','))::numeric AS extras,
-    CASE
-        WHEN co.pizza_id = 1 AND exclusions IS NULL AND extras IS NULL THEN 'Meat Lovers'
-        WHEN co.pizza_id = 1 AND (exclusions LIKE '%3%' OR CAST(exclusions AS numeric) = 3) AND (extras IS NULL OR extras = 0) THEN 'Meat Lovers - Exclude Beef'
-        WHEN co.pizza_id = 1 AND (exclusions IS NULL OR CAST(exclusions AS numeric) = 0) AND (extras LIKE '%1%' OR extras = 1) THEN 'Meat Lovers - Extra Bacon'
-        WHEN co.pizza_id = 1 AND exclusions LIKE '1,4' AND extras LIKE '6,9' THEN 'Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers'
-    END AS OrderItem
-FROM
-    customer_orders AS co
-LEFT JOIN pizza_names AS pn ON pn.pizza_id = co.pizza_id;
-
 
 
 5--)Generate an alphabetically ordered comma separated ingredient list for each pizza order 
 	--from the customer_orders table and add a 2x in front of any relevant ingredients
-	--For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
+	--For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"	
 	
 5--)customer_orders tablosundan her pizza siparişi için alfabetik olarak sıralanmış 
 	--virgülle ayrılmış bir malzeme listesi oluşturun ve ilgili malzemelerin önüne 2x ekleyin
 		--Örneğin: "Et Sevenler: 2xPastırma, Sığır eti, ... , Salam"	
 
-select * from customer_orders 
-  
-  select * from pizza_names
-  
-  select * from pizza_recipes
-  
-  select * from pizza_toppings
-  
-  select * from runner_orders
-  
-  select * from runners 
 
 
-with  ingredient as 
-
-(
-select  
-		co.order_id,
-	co.customer_id,
-	co.pizza_id,
-	pn.pizza_name,
-	 
-	case 
-		when pt.topping_id in (select unnest(string_to_array(extras, ','))::numeric from customer_orders) then 
-				concat('2x', pt.topping_name) else pt.topping_name end as ext_topping,
-	case 	
-		when pt_topping_id in (select unnest(string_to_array(exclusions, ','))::numeric from customer_orders ) then 
-			replace(pt.topping_name, pt.topping_name, '') else topping_name end as exc_topping
-	
-	from customer_orders as co
-	left join pizza_names as pn on pn.pizza_id = co.pizza_id
-	left join pizza_recipes as pr on pr.pizza_id=co.pizza_id
-	left join pizza_toppings as pt on pt.topping_id=pr.toppings
-
-
-) !! veri tipleri ile ilgilen.
 		
 6--)What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
 6--)Teslim edilen tüm pizzalarda kullanılan her bir malzemenin en sık kullanılana göre sıralanmış toplam miktarı nedir?
 
 
-select 
-		co.order_id
 
-from customer_orders as co
-left join runner_orders as ro on ro.pizza_id = co.pizza_id
-where ro.cancellation is null
+##7. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
+##7. Teslim edilen tüm pizzalarda kullanılan her bir malzemenin en sık kullanılana göre sıralanmış toplam miktarı nedir?
 
-
-
-select pizza_id,unnest(string_to_array(toppings, ','))::numeric from pizza_recipes
 
 
 --D. Pricing and Ratings
@@ -950,12 +751,10 @@ where ro.cancellation is null
 2--)Pizza ekstraları için 1 dolar ek ücret alınsa nasıl olur?
 	--Peynir eklemek ekstra 1 dolar	
 	
-with no_extras_price as 
-
+with no_extras_price as
 (select 
-		sum
-		(case 
-				when co.pizza_id = 1 then 12 else 10 end) as pr_prices
+	sum (case
+		when co.pizza_id = 1 then 12 else 10 end) as pr_prices
 from customer_orders  as co	
 left join runner_orders as ro on co.order_id= ro.order_id
 where ro.cancellation is null
@@ -963,30 +762,38 @@ where ro.cancellation is null
 , extras_price  as 
 
 (select 
-		sum(case when co.extras_id = 4 then 2 else 1 end) ext_price 
-		
+		sum(case 
+			when co.extras_id = 4 then 2 else 1 end) ext_price 		
 	from customer_orders_ as co
 	join runner_orders as ro on ro.order_id = co.order_id
-	where ro.cancellation is null)	
-	
-	select concat(nep.pr_prices+ep.ext_price) as pizza_runner_revenue from no_extras_price as nep, extras_price  as ep
+	where ro.cancellation is null)
+
+	select
+      concat(nep.pr_prices+ep.ext_price) as pizza_runner_revenue
+from no_extras_price as nep, extras_price  as ep;
 
 
 
+--?
+with topping_revenue as 
+(
+    select *,
+           length(extras) - length(replace(extras, ',', '')) + 1 as topping_count
+    from customer_orders
+    inner join pizza_names using (pizza_id)
+    inner join runner_orders using (order_id)
+    where cancellation is null
+    order by order_id
+),
+pizza_revenue as 
+(
+select sum(case when pizza_id = 1 then 12 else 10 end) as pizza_revenue,
+       sum(topping_count) as topping_revenue
+from topping_revenue
+)
+select concat('$', topping_revenue + pizza_revenue) as total_revenue
+from pizza_revenue;
 
-WITH ex_bool_list AS (
-SELECT 
- co.order_id,
- co.pizza_id,
- co.extras,
- CASE WHEN position(',' IN co.extras) > 0 THEN TRUE ELSE FALSE END AS ex_bool,
- sum(CASE WHEN co.pizza_id = 1 THEN 12 ELSE 10 END) AS pr_prices
- FROM customer_orders AS co
- LEFT JOIN runner_orders AS ro ON co.order_id = ro.order_id
- WHERE ro.cancellation IS NULL
-	group by 1,2,3
-
-), 
 
 
 -3--)
