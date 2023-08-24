@@ -42,7 +42,7 @@ Let's review some methods to deal with missing values:
 
 Thus, the most suitable approach in our case is to **remove those NULL values**. This decision is based on the fact that we are unable to specify which date those records are assigned to, and as they won't provide any meaningful value for our analysis, eliminating them would be the best option. This approach would contribute to making our analyses more reliable.
 
-`````sql
+````sql
 DELETE FROM interest_metrics
 WHERE month_year IS NULL
 ````
