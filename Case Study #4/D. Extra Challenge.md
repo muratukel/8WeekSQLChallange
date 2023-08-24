@@ -33,3 +33,17 @@ FROM cte
 GROUP BY customer_id, TO_DATE (EXTRACT (YEAR FROM month_start_date) || '-' || EXTRACT (MONTH FROM month_start_date) || '-01', 'YYYY-MM-DD')
 ORDER BY data_required DESC;
 ````
+| customer_id |   txn_month   | data_required |
+|-------------|---------------|---------------|
+|     61      |  2020-03-01   |    143153.56  |
+|     82      |  2020-01-01   |    136765.65  |
+|     424     |  2020-02-01   |    111109.13  |
+|     5       |  2020-03-01   |    109250.71  |
+|     155     |  2020-03-01   |     99300.86  |
+|     131     |  2020-01-01   |     98928.02  |
+|     192     |  2020-02-01   |     98119.78  |
+|     45      |  2020-01-01   |     97725.36  |
+|     177     |  2020-03-01   |     96204.86  |
+|     269     |  2020-01-01   |     96128.91  |
+
+# The first 10 lines are shown.

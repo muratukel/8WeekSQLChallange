@@ -773,6 +773,7 @@ where ro.cancellation is null
 from no_extras_price as nep, extras_price  as ep;
 
 
+<<<<<<< HEAD
 
 --?
 with topping_revenue as 
@@ -796,6 +797,8 @@ from pizza_revenue;
 
 
 
+=======
+>>>>>>> 41a0ea0466c7c441af4e7c8d5a31a9474c159383
 -3--)
 
 create table runner_rating (

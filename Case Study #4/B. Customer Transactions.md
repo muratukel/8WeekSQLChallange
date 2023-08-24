@@ -12,6 +12,12 @@ select
 	group by 1
 	order by 1;
  ````
+| txn_type   | unique_count | total_amount |
+|------------|--------------|--------------|
+| deposit    |     500      |   1359168    |
+| purchase   |     448      |   806537     |
+| withdrawal |     439      |   793003     |
+
 ## 2.What is the average total historical deposit counts and amounts for all customers?
 
 ````sql
@@ -27,11 +33,14 @@ with deposit as
 	order by 1
 )
 select txn_type ,
-avg(deposit_count) as avg_deposit_count,
-avg(deposit_amount) as avg_deposit_amount
+round(avg(deposit_count),2) as avg_deposit_count,
+round(avg(deposit_amount),2) as avg_deposit_amount
 from deposit 
 group by 1;
  ````
+| txn_type | avg_deposit_count | avg_deposit_amount |
+|----------|-------------------|--------------------|
+| deposit  |       5.34        |      2718.34       |
 
 ## 3.For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
 
@@ -55,6 +64,12 @@ select
 		 group by 2 
 		   order by 1 ;
  ````
+| customer_count | for_each_month |
+|----------------|----------------|
+|      70        |    April       |
+|     168        |   January      |
+|     181        |   February     |
+|     192        |     March      |
 
 ## 4.What is the closing balance for each customer at the end of the month?
 
@@ -74,25 +89,21 @@ select
 	    sum(total_amount) over(partition by customer_id order by end_of_month) as closing_balance
 from eom;
  ````
+| customer_id | month_name | closing_balance |
+|-------------|------------|-----------------|
+|      1      |   January  |      312        |
+|      1      |    March   |     -640        |
+|      2      |   January  |      549        |
+|      2      |    March   |      610        |
+|      3      |   January  |      144        |
+|      3      |  February  |     -821        |
+|      3      |    March   |     -1222       |
+|      3      |    April   |     -729        |
+|      4      |   January  |      848        |
+|      4      |    March   |      655        |
 
-## 4.What is the closing balance for each customer at the end of the month?
 
-````sql
-with eom as 
-(
-select 
-	customer_id,
-	(date_trunc('month',txn_date)+interval '1 month - 1 day')::date as end_of_month,
-	sum(case when txn_type='deposit' then txn_amount else -1 * txn_amount end ) as total_amount
- from customer_transactions
-	group by 1,2
-)
-select
-	customer_id,
-	 to_char("end_of_month",'Month') as month_name,
-	    sum(total_amount) over(partition by customer_id order by end_of_month) as closing_balance
-from eom;
- ````
+# The first 10 lines are shown.
 
 ## 5.What is the percentage of customers who increase their closing balance by more than 5%?
 
@@ -146,3 +157,7 @@ select round(count(customer_id) * 100.0 / (select count(customer_id) from table5
 from table5
 where percent_change > 5
  ````
+| percent_of_customers |
+|----------------------|
+|        31.80         |
+

@@ -1,3 +1,4 @@
+## ⚡ Case Study #3 - Foodie-Fi
 ## :electron: D. Outside The Box Questions
 
 The following are open ended questions which might be asked during a technical interview for this case study - there are no right or wrong answers, but answers that make sense from both a technical and a business perspective make an amazing impression!
@@ -26,6 +27,21 @@ lag(m.customer_count) over(partition by m.plan_id order by m.month)*100,1) as gr
 from month_customer as m
 order by 1,2;
 ```
+|          month         | plan_id | customer_count | previous_customers | growth_ratio |
+|-----------------------|---------|----------------|--------------------|--------------|
+| 2020-01-01 00:00:00+03 |    1    |      31        |                   |              |
+| 2020-01-01 00:00:00+03 |    2    |      29        |                   |              |
+| 2020-01-01 00:00:00+03 |    3    |      2         |                   |              |
+| 2020-02-01 00:00:00+03 |    1    |      37        |        31         |     0.0      |
+| 2020-02-01 00:00:00+03 |    2    |      29        |        29         |     0.0      |
+| 2020-02-01 00:00:00+03 |    3    |      5         |        2          |    100.0     |
+| 2020-03-01 00:00:00+03 |    1    |      49        |        37         |     0.0      |
+| 2020-03-01 00:00:00+03 |    2    |      37        |        29         |     0.0      |
+| 2020-03-01 00:00:00+03 |    3    |      7         |        5          |     0.0      |
+| 2020-04-01 00:00:00+03 |    1    |      43        |        49         |     0.0      |
+
+# The first 10 lines are shown.
+
 ## Let me calculate the growth rate based on the sum of monthly plan fees.
 
 ```sql
@@ -49,6 +65,21 @@ lag(m.sum_price) over(partition by m.plan_id order by m.month)*100,1) as growth_
 from month_customer as m
 order by 1,2;
 ```
+|          month         | plan_id | sum_price | previous_customers | growth_ratio |
+|-----------------------|---------|-----------|--------------------|--------------|
+| 2020-01-01 00:00:00+03 |    1    |   306.90  |                   |              |
+| 2020-01-01 00:00:00+03 |    2    |   577.10  |                   |              |
+| 2020-01-01 00:00:00+03 |    3    |   398.00  |                   |              |
+| 2020-02-01 00:00:00+03 |    1    |   366.30  |    306.90         |     19.4     |
+| 2020-02-01 00:00:00+03 |    2    |   577.10  |    577.10         |     0.0      |
+| 2020-02-01 00:00:00+03 |    3    |   995.00  |    398.00         |    150.0     |
+| 2020-03-01 00:00:00+03 |    1    |   485.10  |    366.30         |     32.4     |
+| 2020-03-01 00:00:00+03 |    2    |   736.30  |    577.10         |     27.6     |
+| 2020-03-01 00:00:00+03 |    3    |  1393.00  |    995.00         |     40.0     |
+| 2020-04-01 00:00:00+03 |    1    |   425.70  |    485.10         |    -12.2     |
+
+# The first 10 lines are shown.
+
 ## Let's calculate the growth rate by years.
 
 ```sql
@@ -65,6 +96,10 @@ SELECT ((COUNT(DISTINCT current_customers) - COUNT(DISTINCT previous_customers))
 		COUNT(DISTINCT previous_customers)) * 100 AS rate_of_growth
 FROM customer_counts;
 ```
+| rate_of_growth |
+|----------------|
+|       0        |
+
 ## 2.What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
 
 🚩Monthly Recurring Revenue (MRR): This is an income that is paid continuously over a specified period of time. 

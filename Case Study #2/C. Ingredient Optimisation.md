@@ -21,6 +21,22 @@ from table1 as t1
 left join pizza_toppings as pt ON t1.recipes_id = pt.topping_id
 order by pizza_id;
 ```
+| pizza_name   | topping_name   |
+|--------------|----------------|
+| "Meatlovers" | "BBQ Sauce"    |
+| "Meatlovers" | "Pepperoni"    |
+| "Meatlovers" | "Cheese"       |
+| "Meatlovers" | "Salami"       |
+| "Meatlovers" | "Chicken"      |
+| "Meatlovers" | "Bacon"        |
+| "Meatlovers" | "Mushrooms"    |
+| "Meatlovers" | "Beef"         |
+| "Vegetarian" | "Tomato Sauce" |
+| "Vegetarian" | "Cheese"       |
+| "Vegetarian" | "Mushrooms"    |
+| "Vegetarian" | "Onions"       |
+| "Vegetarian" | "Peppers"      |
+| "Vegetarian" | "Tomatoes"     |
 
 ### 2. What was the most commonly added extra?
 
@@ -43,6 +59,11 @@ left join pizza_toppings as pt on pt.topping_id = e.extra
 group by 1
 order by count_use_extra desc;
 ```
+| topping_name | count_use_extra |
+|--------------|-----------------|
+| "Bacon"      |              4 |
+| "Chicken"    |              1 |
+| "Cheese"     |              1 |
 
 ### 3. What was the most common exclusion?
 ```sql
@@ -63,35 +84,16 @@ left join pizza_toppings as pt on pt.topping_id = e.exclusions
 group by 1
 order by count_exclusion desc;
 ```
+| topping_name | count_exclusion |
+|--------------|-----------------|
+| "Cheese"     |              4 |
+| "Mushrooms"  |              1 |
+| "BBQ Sauce"  |              1 |
 
 ### 4. Generate an order item for each record in the customers_orders table in the format of one of the following:
-- Meat Lovers
-- Meat Lovers - Exclude Beef
-- Meat Lovers - Extra Bacon
-- Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
-
+-
 ### 5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients
-```sql
-
-select  
-		co.order_id,
-	co.customer_id,
-	co.pizza_id,
-	pn.pizza_name,
-	 
-	case 
-		when pt.topping_id in (select unnest(string_to_array(extras, ','))::numeric from customer_orders) then 
-				concat('2x', pt.topping_name) else pt.topping_name end as ext_topping,
-	case 	
-		when pt_topping_id in (select unnest(string_to_array(exclusions, ','))::numeric from customer_orders ) then 
-			replace(pt.topping_name, pt.topping_name, '') else topping_name end as exc_topping
-	
-	from customer_orders as co
-	left join pizza_names as pn on pn.pizza_id = co.pizza_id
-	left join pizza_recipes as pr on pr.pizza_id=co.pizza_id
-	left join pizza_toppings as pt on pt.topping_id=pr.toppings;
-```
-
+-
 ### 6. For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
 -
 ### 7. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
