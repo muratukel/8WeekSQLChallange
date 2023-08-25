@@ -1,6 +1,3 @@
-## 🍊 Case Study #8 - Fresh Segments
-![Image](https://8weeksqlchallenge.com/images/case-study-designs/8.png)
-🔗 https://8weeksqlchallenge.com/case-study-8/
 ## 🚮 Data Exploration and Cleansing 
 ## 1.Update the fresh_segments.interest_metrics table by modifying the month_year column to be a date data type with the start of the month
 ````sql
