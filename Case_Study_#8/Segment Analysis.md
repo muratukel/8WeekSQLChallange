@@ -345,3 +345,15 @@ min_per as (
 | 10839       | Tampa and St Petersburg Trip Planners   | "2019-03-01" | 4.84           | "2018-07-01"  | 75.03          |
 | 23          | Techies                                 | "2019-08-01" | 7.92           | "2018-07-01"  | 86.69          |
 | 43546       | Personalized Gift Shoppers              | "2019-06-01" | 5.7            | "2019-03-01"  | 73.15          |
+
+## 5.How would you describe our customers in this segment based off their composition and ranking values? What sort of products or services should we show to these customers and what should we avoid?
+
+## Entertainment Industry Decision Makers: Eğlence Sektörü Karar Vericileri
+
+Entertainment Industry Decision Makers are in the high percentile of rankings (86.15), thus they should be directed to relevant and quality content. When the entertainment industry ranks low (11.23), it's likely that other industries are prevailing at that time. They seem to shine when their rankings are at their highest percentages. Even at their lowest ranking percentiles, they still hold a significant segment, demonstrating their influence.
+
+**Recommendations:**
+As decision makers in the entertainment industry, content about industry innovations, leaders, and business opportunities can be presented. For a comedy movie or a sports event to be entertaining, a prerequisite is that individuals find the content amusing.
+
+**Avoid:**
+Content unrelated to the entertainment industry, such as technology or finance topics, should be avoided. Also, steer clear of low-quality or false information.
