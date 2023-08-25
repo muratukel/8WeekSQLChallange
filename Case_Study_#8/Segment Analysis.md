@@ -207,4 +207,141 @@ from min_composition as ma
 | 36877       | "2019-05-01" | 1.53        |
 | 6127        | "2019-05-01" | 1.53        |
 
+## 2.Which 5 interests had the lowest average ranking value?
+````sql
+with not_removed_interest as 
+(  select interest_id,count(distinct month_year) as month_count
+        from interest_metrics
+        group by 1
+        having count(distinct month_year) >=6	
+ )   
+,filter_table as 
+(
+select 
+	ime.month_year,
+	ime.interest_id,
+	ima.interest_name,
+	ime.ranking
+from interest_metrics as ime
+	left join interest_map as ima on ima.id=ime.interest_id
+where ime.interest_id  in (select interest_id from not_removed_interest)
+)
+select 
+	interest_id,
+	interest_name,
+	round(avg(ranking),2) as avg_ranking
+from filter_table 
+group by 1,2
+order by 3 asc
+limit 5
+````
+| interest_id | interest_name                   | avg_ranking |
+|-------------|---------------------------------|-------------|
+| 41548       | Winter Apparel Shoppers         | 1.00        |
+| 42203       | Fitness Activity Tracker Users  | 4.11        |
+| 115         | Mens Shoe Shoppers              | 5.93        |
+| 171         | Shoe Shoppers                   | 9.36        |
+| 4           | Luxury Retail Researchers       | 11.86       |
 
+## 3.Which 5 interests had the largest standard deviation in their percentile_ranking value?
+````sql
+with not_removed_interest as 
+(  select interest_id,count(distinct month_year) as month_count
+        from interest_metrics
+        group by 1
+        having count(distinct month_year) >=6	
+ )   
+,filter_table as 
+(
+select 
+	ime.month_year,
+	ime.interest_id,
+	ima.interest_name,
+	ime.percentile_ranking
+from interest_metrics as ime
+	left join interest_map as ima on ima.id=ime.interest_id
+where ime.interest_id  in (select interest_id from not_removed_interest)
+)
+select 
+	interest_id,
+	interest_name,
+	round(stddev(percentile_ranking)::numeric,2) as std_dev_ranking
+from filter_table 
+group by 1,2
+order by 3 desc 
+limit 5
+````
+| interest_id | interest_name                               | std_dev_ranking |
+|-------------|---------------------------------------------|-----------------|
+| 23          | Techies                                     | 30.18           |
+| 20764       | Entertainment Industry Decision Makers      | 28.97           |
+| 38992       | Oregon Trip Planners                        | 28.32           |
+| 43546       | Personalized Gift Shoppers                  | 26.24           |
+| 10839       | Tampa and St Petersburg Trip Planners       | 25.61           |
+
+## 4.For the 5 interests found in the previous question - what was minimum and maximum percentile_ranking values for each interest and its corresponding year_month value? Can you describe what is happening for these 5 interests?
+````sql
+with interests as
+(
+    select 
+        interest_id, 
+        f.interest_name,
+        round(stddev(percentile_ranking)::numeric,2) as stdev_ranking
+    from filtered_table f
+    join interest_map as ma on
+     f.interest_id::integer = ma.id
+    group by 1,2
+     order by 3 desc
+    limit 5
+),
+percentiles as(
+    select 
+        i.interest_id, 
+        f.interest_name, 
+        max(percentile_ranking) as max_percentile,
+        min(percentile_ranking) as min_percentile
+    from filtered_table as f 
+    left join interests as i
+    on i.interest_id=f.interest_id
+    group by 1,2
+), 
+max_per as (
+    select 
+        p.interest_id, 
+        f.interest_name,
+        month_year as max_year, 
+        max_percentile
+    from  filtered_table as f 
+    left join percentiles as p
+    on p.interest_id=f.interest_id
+    where  max_percentile = percentile_ranking
+),
+min_per as ( 
+    select 
+        p.interest_id, 
+        f.interest_name,
+        month_year as min_year, 
+        min_percentile
+    from  filtered_table as f 
+    left join percentiles as  p
+    on p.interest_id=f.interest_id
+    where  min_percentile = percentile_ranking
+)
+    select 
+        mi.interest_id,
+        mi.interest_name,
+        min_year,
+        min_percentile, 
+        max_year, 
+        max_percentile
+    from min_per as mi 
+    left join max_per as ma 
+    on mi.interest_id= ma.interest_id
+````
+| interest_id | interest_name                           | min_year     | min_percentile | max_year      | max_percentile |
+|-------------|-----------------------------------------|------------  |----------------|---------------|----------------|
+| 20764       | Entertainment Industry Decision Makers  | "2019-08-01" | 11.23          | "2018-07-01"  | 86.15          |
+| 38992       | Oregon Trip Planners                    | "2019-07-01" | 2.2            | "2018-11-01"  | 82.44          |
+| 10839       | Tampa and St Petersburg Trip Planners   | "2019-03-01" | 4.84           | "2018-07-01"  | 75.03          |
+| 23          | Techies                                 | "2019-08-01" | 7.92           | "2018-07-01"  | 86.69          |
+| 43546       | Personalized Gift Shoppers              | "2019-06-01" | 5.7            | "2019-03-01"  | 73.15          |
