@@ -357,3 +357,43 @@ As decision makers in the entertainment industry, content about industry innovat
 
 **Avoid:**
 Content unrelated to the entertainment industry, such as technology or finance topics, should be avoided. Also, steer clear of low-quality or false information.
+
+## Oregon Trip Planners: Oregon Seyahat Planlayıcıları
+
+Oregon Trip Planners fall in the low percentile of rankings on July 1, 2019 (2.2), indicating a group with diverse interests. Hence, we can assume they are a group with broader and more general preferences.
+
+**Recommendations:**
+Content about Oregon travel guides, equipment recommendations for nature trips, information about local events and festivals could be of interest to them.
+
+**Avoid:**
+Content about travel to other regions or countries, luxury travel, or high-budget events should be avoided.
+
+## Tampa and St. Petersburg Trip Planners
+
+Providing this segment with region-specific travel guides, local event announcements, and lodging recommendations can be effective.
+
+**Recommendations:**
+Travel guides for Tampa and St. Petersburg, local restaurant and cafe recommendations, as well as announcements of local events could be showcased.
+
+**Avoid:**
+Content related to travel to other regions, cold or winter-focused activities should be avoided.
+
+## Techies
+
+This segment represents technology enthusiasts. They are in the high percentile of rankings (86.69), so they should be directed towards technology-focused content.
+
+**Recommendations:**
+Content about technology trends, product reviews, programming guides, and information about newly released software or devices could be highlighted.
+
+**Avoid:**
+Content unrelated to technology, such as outdoor sports or art, should be avoided. Also, steer clear of low-quality or outdated technology-related content.
+
+## Personalized Gift Shoppers
+
+This segment is in the mid-range percentile of rankings (73.15), so tailored content can be provided for this group. Personalized gift ideas, special product reviews, and shopping tips might attract this segment.
+
+**Recommendations:**
+Content about personalized gift ideas, unique product reviews, and tips for selecting gifts could be showcased.
+
+**Avoid:**
+General or ordinary gift ideas, content about low-quality or inadequate products should be avoided.
