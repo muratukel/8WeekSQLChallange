@@ -246,12 +246,18 @@ order by month_year;
 
 ## 5.Provide a possible reason why the max average composition might change from month to month? Could it signal something is not quite right with the overall business model for Fresh Segments?
 
--- Upon reviewing the given output, it can be observed that the monthly highest average composition values vary between months.
--- The underlying reasons for these variations can be diverse.
--- Seasonal fluctuations can increase due to factors such as holiday periods or special events, driven by demands in interest areas.
--- Changes in market trends and consumer preferences can elevate the popularity of new products or services, while causing older interest areas to recede.
--- Increased competition or competitive marketing strategies can contribute to fluctuations in the popularity of interest areas.
--- Evolving needs and preferences of the target audience can lead to changes in monthly composition values.
--- Additionally, incorrect data collection or calculation can result in anomalies.
--- The combination of these factors can contribute to variations in monthly highest average composition values.
--- While these variations may not necessarily require a business model overhaul, understanding the reasons behind them is crucial to better comprehend your business and market, and to maintain your competitive advantage.
+When examining the provided output, it becomes apparent that the monthly highest average composition values exhibit variations across different months. These variations can stem from a range of underlying causes.
+
+One possible driver for these changes is seasonal fluctuations. Demands within interest areas might experience a surge during holiday periods or special events, contributing to the observed differences.
+
+Market trends and shifts in consumer preferences could also play a significant role. New products or services gaining popularity can influence the composition values positively, while older interest areas might experience a decline.
+
+Increased competition or the implementation of competitive marketing strategies can lead to oscillations in the popularity of specific interest areas.
+
+Furthermore, the evolving needs and changing preferences of the target audience can result in fluctuations in the monthly composition values.
+
+It's important to note that anomalies could arise due to factors like incorrect data collection or calculation, adding another layer of complexity to the analysis.
+
+The combination of these factors, interacting in various ways, contributes to the observed variations in the monthly highest average composition values.
+
+While these fluctuations might not necessarily necessitate a complete overhaul of your business model, understanding the underlying reasons is paramount. It offers a deeper comprehension of your business and market dynamics, helping you maintain your competitive edge and make informed decisions.
