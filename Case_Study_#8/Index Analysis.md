@@ -38,6 +38,7 @@ from avg_composition
 # First 10 rows
 
 ## 2.For all of these top 10 interests - which interest appears the most often?
+# ROAD 1
 ````sql
 with avg_composition as 
 (
@@ -90,3 +91,22 @@ order by 2 desc
 | Marijuana Legalization Advocates               | 1     |
 | Luxury Boutique Hotel Researchers              | 1     |
 | Video Gamers                                  | 1     |
+
+# ROAD 2
+````sql
+select 
+    interest_name,
+    count(interest_name) as interest_count
+from (
+    select
+        ime.month_year,
+        ima.interest_name,
+        round((ime.composition / ime.index_value)::numeric, 2) as avg_composition,
+        rank() over (partition by ime.month_year order by ime.composition / ime.index_value desc) as rank_number
+    from interest_metrics as ime
+    left join interest_map as ima on ima.id = ime.interest_id
+) as subquery
+where rank_number <= 10
+group by interest_name
+order by interest_count desc;
+````
