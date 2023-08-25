@@ -1,5 +1,6 @@
 ## 🔍 Segment Analysis
 ## 1.Using our filtered dataset by removing the interests with less than 6 months worth of data, which are the top 10 and bottom 10 interests which have the largest composition values in any month_year? Only use the maximum composition value for each interest but you must keep the corresponding month_year
+
 # ROAD 1
 ````sql
 with not_removed_interest as 
@@ -139,6 +140,7 @@ from min_composition as ma
 | 6314        | "2019-06-01" | 1.53        |
 | 36877       | "2019-05-01" | 1.53        |
 | 6127        | "2019-05-01" | 1.53        |
+
 # ROAD 3
 ````sql
 with not_removed_interest as 
